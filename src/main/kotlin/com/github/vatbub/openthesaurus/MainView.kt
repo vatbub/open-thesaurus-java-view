@@ -265,7 +265,7 @@ class MainView : Closeable {
 
     @FXML
     fun settingsButtonOnAction() {
-        mouseStateProperty.set(OutsideWindow)
+
     }
 
     private fun subscribeToClipboard() {
