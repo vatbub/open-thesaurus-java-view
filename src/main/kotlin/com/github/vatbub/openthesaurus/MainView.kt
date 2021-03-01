@@ -23,6 +23,7 @@ import com.github.vatbub.openthesaurus.MouseState.InsideWindow
 import com.github.vatbub.openthesaurus.MouseState.OutsideWindow
 import com.github.vatbub.openthesaurus.apiclient.*
 import com.github.vatbub.openthesaurus.logging.logger
+import com.github.vatbub.openthesaurus.util.get
 import com.sun.glass.ui.ClipboardAssistance
 import javafx.animation.Animation.Status.RUNNING
 import javafx.animation.KeyFrame
@@ -180,7 +181,7 @@ class MainView : Closeable {
     }
 
     private fun setEmptyTreeView() {
-        treeView.root = TreeItem("Kein Begriff gesucht. Kopieren Sie einen beliebigen Text, um Synonyme zu finden.")
+        treeView.root = TreeItem(App.stringResources["results.noSearch"])
     }
 
     @FXML
@@ -199,7 +200,7 @@ class MainView : Closeable {
         clipboardContent.putString(selectedTerm.term)
         Clipboard.getSystemClipboard().setContent(clipboardContent)
 
-        doSnackBarAnimation("Der Begriff \"${selectedTerm.term}\" wurde in die Zwischenablage kopiert.")
+        doSnackBarAnimation(App.stringResources["results.copiedToClipboard"].format(selectedTerm.term))
     }
 
     @FXML
@@ -272,15 +273,18 @@ class MainView : Closeable {
                 baseForm = true
             )
         ).leftOr {
-            logger.info("An error happened while requesting synonyms from Open thesaurus. Response code: ${it.responseCode}; Response content: ${it.responseContent}", it.throwable)
+            logger.info(
+                "An error happened while requesting synonyms from Open thesaurus. Response code: ${it.responseCode}; Response content: ${it.responseContent}",
+                it.throwable
+            )
             Platform.runLater {
                 progressIndicator.isVisible = false
                 currentResultProperty.set(null)
 
                 val snackBarText = if (it.responseContent == null)
-                    "Während der letzten Anfrage ist ein Fehler aufgetreten."
+                    App.stringResources["results.apiErrorNoAdditionalMessage"]
                 else
-                    "Während der letzten Anfrage ist ein Fehler aufgetreten. ${it.responseContent}"
+                    App.stringResources["results.apiErrorWithAdditionalMessage"]
                 doSnackBarAnimation(snackBarText)
             }
             return@launch
@@ -292,12 +296,12 @@ class MainView : Closeable {
     private fun showThesaurusResult(result: OpenThesaurusResult) {
         val searchTerm = currentSearchTermProperty.get() ?: ""
 
-        val root = TreeItem("Begriff: $searchTerm")
+        val root = TreeItem(App.stringResources["results.root"].format(searchTerm))
         root.isExpanded = true
 
         val synonymTreeItemText =
-            if (result.synonymSets.isNotEmpty()) "Synonyme:"
-            else "Keine Synonyme gefunden."
+            if (result.synonymSets.isNotEmpty()) App.stringResources["results.synonymsNode"]
+            else App.stringResources["results.synonymsNode.noSynonymsFound"]
         val synonymsRoot = TreeItem(synonymTreeItemText)
         val synonymTreeItems = result.synonymSets
             .map { it.terms }
@@ -310,7 +314,7 @@ class MainView : Closeable {
         val newTreeItemIndex = mutableMapOf(*synonymTreeItems.toList().toTypedArray())
 
         result.similarTerms?.let { similarTerms ->
-            val similarTermsRoot = TreeItem("Ähnliche Begriffe:")
+            val similarTermsRoot = TreeItem(App.stringResources["results.similarTermsNode"])
             val similarTreeItems = similarTerms
                 .distinct()
                 .associateBy { term -> term.treeItem() }
@@ -322,7 +326,7 @@ class MainView : Closeable {
         }
 
         result.substringTerms?.let { substringTerms ->
-            val substringTermsRoot = TreeItem("Begriffe, die $searchTerm enthalten:")
+            val substringTermsRoot = TreeItem(App.stringResources["results.substringTermsNode"].format(searchTerm))
             val substringTreeItems = substringTerms
                 .distinct()
                 .associateBy { term -> term.treeItem() }
@@ -334,7 +338,7 @@ class MainView : Closeable {
         }
 
         result.baseForms?.let { baseForms ->
-            val baseFormsRoot = TreeItem("Grundformen:")
+            val baseFormsRoot = TreeItem(App.stringResources["results.baseFormNode"])
             val baseFormTreeItems = baseForms
                 .distinct()
                 .associateBy { term -> term.treeItem() }
@@ -417,18 +421,18 @@ class MainView : Closeable {
 
         val alert = Alert(alertType)
         alert.title = when (record.level) {
-            Level.CONFIG -> "SmartCharge: Configuration message"
-            Level.INFO -> "SmartCharge: Information"
-            Level.WARNING -> "SmartCharge: Warning"
-            Level.SEVERE -> "SmartCharge: Error"
-            else -> "SmartCharge: Information"
+            Level.CONFIG -> App.stringResources["error.title.config"]
+            Level.INFO -> App.stringResources["error.title.info"]
+            Level.WARNING -> App.stringResources["error.title.warning"]
+            Level.SEVERE -> App.stringResources["error.title.error"]
+            else -> App.stringResources["error.title.info"]
         }
         alert.headerText = when (record.level) {
-            Level.CONFIG -> "Configuration message."
-            Level.INFO -> "Information"
-            Level.WARNING -> "A warning occurred."
-            Level.SEVERE -> "An error occurred."
-            else -> "Information"
+            Level.CONFIG -> App.stringResources["error.headerText.config"]
+            Level.INFO -> App.stringResources["error.headerText.info"]
+            Level.WARNING -> App.stringResources["error.headerText.warning"]
+            Level.SEVERE -> App.stringResources["error.headerText.error"]
+            else -> App.stringResources["error.headerText.info"]
         }
 
         val throwable = record.thrown
@@ -436,11 +440,11 @@ class MainView : Closeable {
 
         val contentTextBuilder = StringBuilder(record.message)
         if (rootCause != null) {
-            contentTextBuilder.append("${rootCause.javaClass.name}: ${rootCause.message}")
+            contentTextBuilder.append("${rootCause.javaClass.name}: ${rootCause.localizedMessage}")
             val stringWriter = StringWriter()
             stringWriter.write(rootCause.stackTraceToString())
 
-            val label = Label("The stacktrace was:")
+            val label = Label(App.stringResources["error.stacktraceLabel"])
             val textArea = TextArea(stringWriter.toString())
             with(textArea) {
                 isWrapText = false

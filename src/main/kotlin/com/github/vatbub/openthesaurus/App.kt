@@ -21,12 +21,14 @@ package com.github.vatbub.openthesaurus
 
 import com.github.vatbub.openthesaurus.logging.LoggingHandlers
 import com.github.vatbub.openthesaurus.logging.exceptionHandler
+import com.github.vatbub.openthesaurus.util.get
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import java.util.*
 
 class App private constructor(callLaunch: Boolean, private vararg val args: String?) : Application() {
     companion object {
@@ -34,6 +36,10 @@ class App private constructor(callLaunch: Boolean, private vararg val args: Stri
 
         lateinit var instance: App
             private set
+
+        val stringResources: ResourceBundle by lazy {
+            ResourceBundle.getBundle("com.github.vatbub.openthesaurus.strings")
+        }
 
         fun actualMain(vararg args: String) {
             Thread.setDefaultUncaughtExceptionHandler(exceptionHandler)
@@ -60,12 +66,12 @@ class App private constructor(callLaunch: Boolean, private vararg val args: Stri
         instance = this
         currentStage = primaryStage
 
-        val fxmlLoader = FXMLLoader(javaClass.getResource("MainView.fxml"), null)
+        val fxmlLoader = FXMLLoader(javaClass.getResource("MainView.fxml"), stringResources)
         val root = fxmlLoader.load<Parent>()
         controllerInstance = fxmlLoader.getController()
 
         val scene = Scene(root)
-        primaryStage.title = "Open Thesaurus"
+        primaryStage.title = stringResources["mainWindow.title"]
         // primaryStage.icons.add(Image(javaClass.getResourceAsStream("icon.png")))
         primaryStage.minWidth = root.minWidth(0.0) + 70
         primaryStage.minHeight = root.minHeight(0.0) + 70

@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.*?>
-
+<?import javafx.scene.text.Font?>
 <AnchorPane fx:id="anchorPane" onMouseClicked="#anchorPaneOnMouseClicked" onMouseEntered="#anchorPaneOnMouseEntered" onMouseExited="#anchorPaneOnMouseExited" prefHeight="400.0" prefWidth="489.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.vatbub.openthesaurus.MainView">
    <children>
       <TreeView fx:id="treeView" layoutY="40.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#treeViewOnMouseClicked" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
@@ -30,21 +26,23 @@
             </Label>
          </children>
          <padding>
-            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
          </padding>
          <effect>
-            <DropShadow />
+            <DropShadow/>
          </effect>
       </HBox>
-      <HBox layoutX="2.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox layoutX="2.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="8.0"
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBack" />
-            <Button fx:id="forwardButton" mnemonicParsing="false" onAction="#goForward" />
-            <TextField fx:id="searchField" promptText="Tippen Sie einen Begriff ein oder kopieren Sie einen Begriff." HBox.hgrow="ALWAYS" />
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#searchButtonOnAction" text="Suchen" />
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBack"/>
+            <Button fx:id="forwardButton" mnemonicParsing="false" onAction="#goForward"/>
+            <TextField fx:id="searchField" promptText="%searchField.promptText" HBox.hgrow="ALWAYS"/>
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#searchButtonOnAction"
+                    text="%searchButton.text"/>
          </children>
          <padding>
-            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
          </padding>
       </HBox>
    </children>
