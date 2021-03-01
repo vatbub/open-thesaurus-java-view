@@ -85,6 +85,9 @@ class MainView : Closeable {
     @FXML
     private lateinit var backButton: Button
 
+    @FXML
+    private lateinit var settingsButton: Button
+
     private val thesaurusClient by lazy { OpenThesaurusClient() }
 
     private val currentSearchTermProperty: StringProperty = SimpleStringProperty()
@@ -110,6 +113,7 @@ class MainView : Closeable {
         assert(snackBar != null) { "fx:id=\"snackBar\" was not injected: check your FXML file 'MainView.fxml'." }
         assert(forwardButton != null) { "fx:id=\"forwardButton\" was not injected: check your FXML file 'MainView.fxml'." }
         assert(backButton != null) { "fx:id=\"backButton\" was not injected: check your FXML file 'MainView.fxml'." }
+        assert(settingsButton != null) { "fx:id=\"backButton\" was not injected: check your FXML file 'MainView.fxml'." }
 
         progressIndicator.isVisible = false
 
@@ -145,6 +149,15 @@ class MainView : Closeable {
             forwardButton.graphic = ImageView(
                 Image(
                     javaClass.getResourceAsStream("forward.png"),
+                    dimensions,
+                    dimensions,
+                    false,
+                    true
+                )
+            )
+            settingsButton.graphic = ImageView(
+                Image(
+                    javaClass.getResourceAsStream("settings.png"),
                     dimensions,
                     dimensions,
                     false,
@@ -247,6 +260,11 @@ class MainView : Closeable {
 
     @FXML
     fun anchorPaneOnMouseExited() {
+        mouseStateProperty.set(OutsideWindow)
+    }
+
+    @FXML
+    fun settingsButtonOnAction() {
         mouseStateProperty.set(OutsideWindow)
     }
 

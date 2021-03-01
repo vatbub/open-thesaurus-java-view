@@ -40,6 +40,7 @@
             <TextField fx:id="searchField" promptText="%searchField.promptText" HBox.hgrow="ALWAYS"/>
             <Button defaultButton="true" mnemonicParsing="false" onAction="#searchButtonOnAction"
                     text="%searchButton.text"/>
+            <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#settingsButtonOnAction"/>
          </children>
          <padding>
             <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
