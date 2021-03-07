@@ -17,9 +17,9 @@
  * limitations under the License.
  * #L%
  */
-package com.github.vatbub.openthesaurus.apiclient
+package com.github.vatbub.openthesaurus.apiclient.openthesaurus
 
-import com.github.vatbub.openthesaurus.apiclient.openthesaurus.*
+import com.github.vatbub.openthesaurus.apiclient.*
 import com.github.vatbub.openthesaurus.util.Either
 import com.github.vatbub.openthesaurus.util.left
 import com.github.vatbub.openthesaurus.util.right

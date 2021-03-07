@@ -19,6 +19,7 @@
  */
 package com.github.vatbub.openthesaurus.apiclient
 
+import com.github.vatbub.openthesaurus.apiclient.openthesaurus.OpenThesaurusProvider
 import com.github.vatbub.openthesaurus.util.Either
 import java.util.*
 
