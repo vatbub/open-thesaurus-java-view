@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="root" hgap="8.0" maxHeight="1.7976931348623157E308"
           maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" vgap="8.0"
-          xmlns="http://javafx.com/javafx/8">
+          xmlns="http://javafx.com/javafx/8" fx:controller="com.github.vatbub.openthesaurus.SettingsView">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity"/>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity"/>

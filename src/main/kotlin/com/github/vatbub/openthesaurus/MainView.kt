@@ -267,13 +267,14 @@ class MainView : Closeable {
 
     @FXML
     fun settingsButtonOnAction() {
-
+        SettingsView.newInstance().show()
     }
 
     private fun subscribeToClipboard() {
         val clipboard = Clipboard.getSystemClipboard()
         object : ClipboardAssistance(com.sun.glass.ui.Clipboard.SYSTEM) {
             override fun contentChanged() {
+                if (!preferences[AutoSearchFromClipboard]) return
                 if (!clipboard.hasString()) return
                 currentSearchTermProperty.set(clipboard.string)
             }
