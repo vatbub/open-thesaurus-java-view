@@ -18,10 +18,11 @@
  * #L%
  */
 
-package com.github.vatbub.openthesaurus.apiclient
+package com.github.vatbub.openthesaurus.apiclient.openthesaurus
 
 import com.beust.klaxon.Klaxon
-import com.github.vatbub.openthesaurus.apiclient.OpenThesaurusApiError.Cause.*
+import com.github.vatbub.openthesaurus.apiclient.ApiError
+import com.github.vatbub.openthesaurus.apiclient.ApiError.Cause.*
 import com.github.vatbub.openthesaurus.logging.logger
 import com.github.vatbub.openthesaurus.util.Either
 import com.github.vatbub.openthesaurus.util.left
@@ -47,7 +48,7 @@ class OpenThesaurusClient(
 
     private var cache: MutableMap<OpenThesaurusRequest, CacheEntry> = mutableMapOf()
 
-    suspend fun request(request: OpenThesaurusRequest): Either<OpenThesaurusResult, OpenThesaurusApiError> {
+    suspend fun request(request: OpenThesaurusRequest): Either<OpenThesaurusResult, ApiError> {
         try {
             cache[request]?.let { return it.result.left() }
 
@@ -77,7 +78,7 @@ class OpenThesaurusClient(
             val result = client.newCall(httpRequest).await().use { response ->
                 if (response.code >= 300) {
                     val stringContent = response.body?.charStream()?.readText()
-                    return OpenThesaurusApiError(
+                    return ApiError(
                         responseCode = response.code,
                         responseContent = stringContent,
                         cause = when (response.code) {
@@ -97,7 +98,7 @@ class OpenThesaurusClient(
             addToCache(request, result)
             return result.left()
         } catch (throwable: Throwable) {
-            return OpenThesaurusApiError(Exception, throwable = throwable).right()
+            return ApiError(Exception, throwable = throwable).right()
         }
     }
 

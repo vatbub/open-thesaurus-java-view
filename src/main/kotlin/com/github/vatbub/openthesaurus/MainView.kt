@@ -23,6 +23,10 @@ import com.github.vatbub.openthesaurus.MouseState.InsideWindow
 import com.github.vatbub.openthesaurus.MouseState.OutsideWindow
 import com.github.vatbub.openthesaurus.apiclient.*
 import com.github.vatbub.openthesaurus.logging.logger
+import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.AutoSearchFromClipboard
+import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.DataSource
+import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.SearchLanguage
+import com.github.vatbub.openthesaurus.preferences.preferences
 import com.github.vatbub.openthesaurus.util.get
 import com.sun.glass.ui.ClipboardAssistance
 import javafx.animation.Animation.Status.RUNNING
@@ -88,10 +92,8 @@ class MainView : Closeable {
     @FXML
     private lateinit var settingsButton: Button
 
-    private val thesaurusClient by lazy { OpenThesaurusClient() }
-
     private val currentSearchTermProperty: StringProperty = SimpleStringProperty()
-    private val currentResultProperty: ObjectProperty<OpenThesaurusResult> = SimpleObjectProperty(null)
+    private val currentResponseProperty: ObjectProperty<Response> = SimpleObjectProperty(null)
 
     private var mouseStateProperty: ObjectProperty<MouseState> = SimpleObjectProperty(InsideWindow)
 
@@ -100,7 +102,7 @@ class MainView : Closeable {
     private val termHistory = TermHistory()
     private var disableHistoryForNextUpdate: Boolean = false
 
-    private var treeItemIndex = mutableMapOf<TreeItem<String>, OpenThesaurusTerm>()
+    private var treeItemIndex = mutableMapOf<TreeItem<String>, ResultTerm>()
 
     @Suppress("SENSELESS_COMPARISON")
     @FXML
@@ -172,7 +174,7 @@ class MainView : Closeable {
         currentSearchTermProperty.addListener { _, _, newValue ->
             searchField.text = newValue
             if (newValue == null) {
-                currentResultProperty.set(null)
+                currentResponseProperty.set(null)
                 return@addListener
             }
             if (!disableHistoryForNextUpdate)
@@ -181,7 +183,7 @@ class MainView : Closeable {
             requestSynonyms(newValue)
         }
 
-        currentResultProperty.addListener { _, _, newValue ->
+        currentResponseProperty.addListener { _, _, newValue ->
             progressIndicator.isVisible = false
             if (newValue == null)
                 setEmptyTreeView()
@@ -205,7 +207,7 @@ class MainView : Closeable {
         }
 
         if (event.clickCount != 2) return
-        if (currentResultProperty.get() == null) return
+        if (currentResponseProperty.get() == null) return
         val selectedTreeItem = treeView.selectionModel?.selectedItem ?: return
         if (!selectedTreeItem.isLeaf) return
         val selectedTerm = treeItemIndex[selectedTreeItem] ?: return
@@ -280,24 +282,14 @@ class MainView : Closeable {
 
     private fun requestSynonyms(term: String) = GlobalScope.launch {
         Platform.runLater { progressIndicator.isVisible = true }
-        val result = thesaurusClient.request(
-            OpenThesaurusRequest(
-                term,
-                similarTerms = true,
-                substring = SubstringConfig.Disabled,
-                startsWith = StartsWithConfig.Disabled,
-                superSynonymSets = true,
-                subSynonymSets = true,
-                baseForm = true
-            )
-        ).leftOr {
+        val result = preferences[DataSource].requestTerm(term, preferences[SearchLanguage]).leftOr {
             logger.info(
                 "An error happened while requesting synonyms from Open thesaurus. Response code: ${it.responseCode}; Response content: ${it.responseContent}",
                 it.throwable
             )
             Platform.runLater {
                 progressIndicator.isVisible = false
-                currentResultProperty.set(null)
+                currentResponseProperty.set(null)
 
                 val snackBarText = if (it.responseContent == null)
                     App.stringResources["results.apiErrorNoAdditionalMessage"]
@@ -308,10 +300,10 @@ class MainView : Closeable {
             return@launch
         }
 
-        Platform.runLater { currentResultProperty.set(result) }
+        Platform.runLater { currentResponseProperty.set(result) }
     }
 
-    private fun showThesaurusResult(result: OpenThesaurusResult) {
+    private fun showThesaurusResult(result: Response) {
         val searchTerm = currentSearchTermProperty.get() ?: ""
 
         val root = TreeItem(App.stringResources["results.root"].format(searchTerm))
@@ -322,8 +314,6 @@ class MainView : Closeable {
             else App.stringResources["results.synonymsNode.noSynonymsFound"]
         val synonymsRoot = TreeItem(synonymTreeItemText)
         val synonymTreeItems = result.synonymSets
-            .map { it.terms }
-            .flatten()
             .distinct()
             .associateBy { term -> term.treeItem() }
         synonymsRoot.children.addAll(synonymTreeItems.keys)
@@ -331,9 +321,9 @@ class MainView : Closeable {
         root.children.add(synonymsRoot)
         val newTreeItemIndex = mutableMapOf(*synonymTreeItems.toList().toTypedArray())
 
-        result.similarTerms?.let { similarTerms ->
+        if (result is ResponseWithSimilarTerms) {
             val similarTermsRoot = TreeItem(App.stringResources["results.similarTermsNode"])
-            val similarTreeItems = similarTerms
+            val similarTreeItems = result.similarTerms
                 .distinct()
                 .associateBy { term -> term.treeItem() }
 
@@ -343,9 +333,9 @@ class MainView : Closeable {
             newTreeItemIndex.putAll(similarTreeItems)
         }
 
-        result.substringTerms?.let { substringTerms ->
+        if (result is ResponseWithSubstringTerms) {
             val substringTermsRoot = TreeItem(App.stringResources["results.substringTermsNode"].format(searchTerm))
-            val substringTreeItems = substringTerms
+            val substringTreeItems = result.substringTerms
                 .distinct()
                 .associateBy { term -> term.treeItem() }
 
@@ -355,9 +345,9 @@ class MainView : Closeable {
             newTreeItemIndex.putAll(substringTreeItems)
         }
 
-        result.baseForms?.let { baseForms ->
+        if (result is ResponseWithBaseForms) {
             val baseFormsRoot = TreeItem(App.stringResources["results.baseFormNode"])
-            val baseFormTreeItems = baseForms
+            val baseFormTreeItems = result.baseForms
                 .distinct()
                 .associateBy { term -> term.treeItem() }
 
@@ -371,7 +361,8 @@ class MainView : Closeable {
         treeItemIndex = newTreeItemIndex
     }
 
-    private fun OpenThesaurusTerm.treeItem(): TreeItem<String> = TreeItem(toString())
+    private fun ResultTerm.treeItem(): TreeItem<String> =
+        TreeItem(if (additionalNote == null) term else "$term ($additionalNote)")
 
     private fun initSnackBar() {
         snackBar.opacity = 0.0
@@ -489,7 +480,12 @@ class MainView : Closeable {
     }
 
     override fun close() {
-        thesaurusClient.close()
+        DataProvider.knownImplementations.forEach {
+            // TODO Remove this suppression once more implementations exist
+            @Suppress("USELESS_IS_CHECK")
+            if (it is Closeable)
+                it.close()
+        }
     }
 }
 

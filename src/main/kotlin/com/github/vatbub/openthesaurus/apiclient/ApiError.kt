@@ -19,7 +19,7 @@
  */
 package com.github.vatbub.openthesaurus.apiclient
 
-data class OpenThesaurusApiError(
+data class ApiError(
     val cause: Cause,
     val throwable: Throwable? = null,
     val responseCode: Int? = null,

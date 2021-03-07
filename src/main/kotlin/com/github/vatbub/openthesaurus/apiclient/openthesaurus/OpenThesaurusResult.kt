@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package com.github.vatbub.openthesaurus.apiclient
+package com.github.vatbub.openthesaurus.apiclient.openthesaurus
 
 import com.beust.klaxon.JsonObject
 
