@@ -27,13 +27,12 @@ import java.io.Closeable
 import java.util.*
 
 class OpenThesaurusProvider(
-    endpoint: String = "https://www.openthesaurus.de/",
-    cacheSize: Int = 50
+    endpoint: String = "https://www.openthesaurus.de/"
 ) : DataProvider, Closeable {
     override val screenName: String = "OpenThesaurus.de"
     override val supportedLocales: List<Locale> = listOf(Locale.GERMAN)
 
-    private val client by lazy { OpenThesaurusClient(endpoint, cacheSize) }
+    private val client by lazy { OpenThesaurusClient(endpoint) }
 
     override suspend fun requestTerm(term: String, searchLocale:Locale): Either<Response, ApiError> {
         if (searchLocale !in supportedLocales) throw IllegalArgumentException("Locale $searchLocale not supported")

@@ -33,7 +33,7 @@ interface DataProvider {
     companion object {
         val knownImplementations: List<DataProvider> by lazy {
             listOf(
-                OpenThesaurusProvider()
+                OpenThesaurusProvider().cacheResults()
             )
         }
     }

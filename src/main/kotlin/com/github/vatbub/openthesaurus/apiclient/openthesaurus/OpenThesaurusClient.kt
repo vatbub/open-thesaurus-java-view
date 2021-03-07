@@ -36,22 +36,15 @@ import ru.gildor.coroutines.okhttp.await
 import java.io.Closeable
 
 class OpenThesaurusClient(
-    private val endpoint: String = "https://www.openthesaurus.de/",
-    private val cacheSize: Int = 50
+    private val endpoint: String = "https://www.openthesaurus.de/"
 ) : Closeable {
     companion object {
         private val client by lazy { OkHttpClient() }
         private val jsonMediaType = "application/json; charset=utf-8".toMediaType()
     }
 
-    private data class CacheEntry(val timestamp: Long, val result: OpenThesaurusResult)
-
-    private var cache: MutableMap<OpenThesaurusRequest, CacheEntry> = mutableMapOf()
-
     suspend fun request(request: OpenThesaurusRequest): Either<OpenThesaurusResult, ApiError> {
         try {
-            cache[request]?.let { return it.result.left() }
-
             val finalUrl = with(request) {
                 endpoint.toHttpUrlOrNull()!!
                     .newBuilder()
@@ -95,20 +88,9 @@ class OpenThesaurusClient(
                 val jsonObject = Klaxon().parseJsonObject(reader)
                 OpenThesaurusResult.fromJson(jsonObject)
             }
-            addToCache(request, result)
             return result.left()
         } catch (throwable: Throwable) {
             return ApiError(Exception, throwable = throwable).right()
-        }
-    }
-
-    private fun addToCache(request: OpenThesaurusRequest, result: OpenThesaurusResult) {
-        cache[request] = CacheEntry(System.currentTimeMillis(), result)
-        if (cache.size > cacheSize) {
-            val sortedList = cache.toList().sortedBy { it.second.timestamp }.toMutableList()
-            while (sortedList.size > cacheSize)
-                sortedList.removeFirst()
-            cache = sortedList.toMap().toMutableMap()
         }
     }
 
