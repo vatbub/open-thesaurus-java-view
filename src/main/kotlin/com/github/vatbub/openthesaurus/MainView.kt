@@ -326,6 +326,7 @@ class MainView : Closeable {
             val similarTermsRoot = TreeItem(App.stringResources["results.similarTermsNode"])
             val similarTreeItems = result.similarTerms
                 .distinct()
+                .sortedBy { it.distance }
                 .associateBy { term -> term.treeItem() }
 
             similarTermsRoot.children.addAll(similarTreeItems.keys)
