@@ -91,6 +91,4 @@ data class OpenThesaurusTerm(val term: String, val level: String?, val distance:
             distance = jsonObject.int("distance")
         )
     }
-
-    override fun toString() = if (level == null) term else "$term ($level)"
 }
