@@ -64,7 +64,7 @@
     <properties>
         <maven.compiler.source>15</maven.compiler.source>
         <maven.compiler.target>15</maven.compiler.target>
-        <gitRepoName>smartCharge</gitRepoName>
+        <gitRepoName>open-thesaurus-java-view</gitRepoName>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mainClass>com.github.vatbub.openthesaurus.MainKt</mainClass>
         <slf4j.version>1.7.30</slf4j.version>
