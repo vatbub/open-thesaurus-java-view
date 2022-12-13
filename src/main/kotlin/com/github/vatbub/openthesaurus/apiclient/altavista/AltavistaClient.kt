@@ -22,7 +22,15 @@ package com.github.vatbub.openthesaurus.apiclient.altavista
 
 import com.beust.klaxon.Klaxon
 import com.github.vatbub.openthesaurus.apiclient.ApiError
-import com.github.vatbub.openthesaurus.apiclient.ApiError.Cause.*
+import com.github.vatbub.openthesaurus.apiclient.ApiError.Cause.ClientError
+import com.github.vatbub.openthesaurus.apiclient.ApiError.Cause.Exception
+import com.github.vatbub.openthesaurus.apiclient.ApiError.Cause.Other
+import com.github.vatbub.openthesaurus.apiclient.ApiError.Cause.Redirect
+import com.github.vatbub.openthesaurus.apiclient.ApiError.Cause.ServerError
+import com.github.vatbub.openthesaurus.apiclient.openthesaurus.OpenThesaurusRequest
+import com.github.vatbub.openthesaurus.apiclient.openthesaurus.OpenThesaurusResult
+import com.github.vatbub.openthesaurus.apiclient.openthesaurus.addStartsWithConfig
+import com.github.vatbub.openthesaurus.apiclient.openthesaurus.addSubstringConfig
 import com.github.vatbub.openthesaurus.logging.logger
 import com.github.vatbub.openthesaurus.util.Either
 import com.github.vatbub.openthesaurus.util.left
