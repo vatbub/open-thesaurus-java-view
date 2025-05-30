@@ -58,7 +58,7 @@
     <parent>
         <groupId>com.github.vatbub</groupId>
         <artifactId>kotlinParentPom</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.1.1</version>
     </parent>
 
     <properties>
@@ -69,6 +69,7 @@
         <mainClass>com.github.vatbub.openthesaurus.MainKt</mainClass>
         <slf4j.version>1.7.30</slf4j.version>
         <javafx.version>14.0.2.1</javafx.version>
+        <kotlin.version>1.9.0</kotlin.version>
     </properties>
 
     <dependencies>
@@ -94,11 +95,13 @@
         <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
+            <version>4.3.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
+            <version>5.18.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
