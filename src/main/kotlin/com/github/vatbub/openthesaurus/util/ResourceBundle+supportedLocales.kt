@@ -26,7 +26,7 @@ val ResourceBundle.supportedLocales: List<Locale>
     get() = DateFormat.getAvailableLocales()
         .filter {
             try {
-                val newBundle = ResourceBundle.getBundle(baseBundleName, it)
+                val newBundle = ResourceBundle.getBundle(baseBundleName, it, XmlResourceBundleControl)
                 newBundle.locale == it
             } catch (_: MissingResourceException) {
                 false

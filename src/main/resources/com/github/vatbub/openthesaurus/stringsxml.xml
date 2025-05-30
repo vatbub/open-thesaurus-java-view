@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  #%L
+  Open Thesaurus Java View
+  %%
+  Copyright (C) 2019 - 2025 Frederik Kammel
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="error.headerText.config">Configuration message</entry>
+    <entry key="error.headerText.error">An error occurred.</entry>
+    <entry key="error.headerText.info">Information</entry>
+    <entry key="error.headerText.warning">A warning occurred.</entry>
+    <entry key="error.stacktraceLabel">The stacktrace was:</entry>
+    <entry key="error.title.config">Thesaurus: Configuration message</entry>
+    <entry key="error.title.error">Thesaurus: Error</entry>
+    <entry key="error.title.info">Thesaurus: Information</entry>
+    <entry key="error.title.warning">Thesaurus: Warning</entry>
+    <entry key="mainWindow.title">Open Thesaurus</entry>
+    <entry key="results.apiErrorNoAdditionalMessage">An error happened during the last request.</entry>
+    <entry key="results.apiErrorWithAdditionalMessage">The following error happened during the last request: %s</entry>
+    <entry key="results.baseFormNode">Base forms:</entry>
+    <entry key="results.copiedToClipboard">The term "%s" has been copied to the clipboard.</entry>
+    <entry key="results.noSearch">No term searched. Copy any text to search for synonyms.</entry>
+    <entry key="results.root">Term: %s</entry>
+    <entry key="results.similarTermsNode">Similar terms:</entry>
+    <entry key="results.substringTermsNode">Tersm that contain "%s":</entry>
+    <entry key="results.synonymsNode">Synonyms:</entry>
+    <entry key="results.synonymsNode.noSynonymsFound">No synonymes found.</entry>
+    <entry key="searchButton.text">Search</entry>
+    <entry key="searchField.promptText">Type a word or copy something.</entry>
+    <entry key="settings.aboutButton">About this app</entry>
+    <entry key="settings.applicationLanguage.label">Interface language:</entry>
+    <entry key="settings.avoidUnnecessaryClipboardSearchesCheckBox">Don't send text to the online service that you probably don't want to search</entry>
+    <entry key="settings.privacyButton">Privacy</entry>
+    <entry key="settings.thesaurusLabel">Data source:</entry>
+    <entry key="settings.thesaurusLanguageLabel">Query language:</entry>
+    <entry key="settings.useClipboardCheckBox">Automatically search synonyms for text that you copy to the clipboard</entry>
+    <entry key="settings.windowTitle">Settings</entry>
+</properties>

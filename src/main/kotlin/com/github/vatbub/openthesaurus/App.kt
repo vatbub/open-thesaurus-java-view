@@ -23,6 +23,7 @@ import com.github.vatbub.openthesaurus.logging.LoggingHandlers
 import com.github.vatbub.openthesaurus.logging.exceptionHandler
 import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.GuiLanguage
 import com.github.vatbub.openthesaurus.preferences.preferences
+import com.github.vatbub.openthesaurus.util.XmlResourceBundleControl
 import com.github.vatbub.openthesaurus.util.get
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
@@ -40,7 +41,11 @@ class App private constructor(callLaunch: Boolean, private vararg val args: Stri
             private set
 
         val stringResources: ResourceBundle by lazy {
-            ResourceBundle.getBundle("com.github.vatbub.openthesaurus.strings", preferences[GuiLanguage])
+            ResourceBundle.getBundle(
+                "com.github.vatbub.openthesaurus.stringsxml",
+                preferences[GuiLanguage],
+                XmlResourceBundleControl
+            )
         }
 
         fun actualMain(vararg args: String) {

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  #%L
+  Open Thesaurus Java View
+  %%
+  Copyright (C) 2019 - 2025 Frederik Kammel
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="error.headerText.config">Konfigurationsmeldung</entry>
+    <entry key="error.headerText.error">Ein Fehler ist aufgetreten.</entry>
+    <entry key="error.headerText.info">Information</entry>
+    <entry key="error.headerText.warning">Eine Warnung ist aufgetreten.</entry>
+    <entry key="error.stacktraceLabel">Stacktrace der Ausnahme:</entry>
+    <entry key="error.title.config">Thesaurus: Konfigurationsmeldung</entry>
+    <entry key="error.title.error">Thesaurus: Fehler</entry>
+    <entry key="error.title.info">Thesaurus: Information</entry>
+    <entry key="error.title.warning">Thesaurus: Warnung</entry>
+    <entry key="mainWindow.title">Open Thesaurus</entry>
+    <entry key="results.apiErrorNoAdditionalMessage">Während der letzten Anfrage ist ein Fehler aufgetreten.</entry>
+    <entry key="results.apiErrorWithAdditionalMessage">Während der letzten Anfrage ist der folgende Fehler aufgetreten: %s</entry>
+    <entry key="results.baseFormNode">Grundformen:</entry>
+    <entry key="results.copiedToClipboard">Der Begriff "%s" wurde in die Zwischenablage kopiert.</entry>
+    <entry key="results.noSearch">Kein Begriff gesucht. Kopieren Sie einen beliebigen Text, um Synonyme zu finden.</entry>
+    <entry key="results.root">Begriff: %s</entry>
+    <entry key="results.similarTermsNode">Ähnliche Begriffe:</entry>
+    <entry key="results.substringTermsNode">Begriffe, die "%s" enthalten:</entry>
+    <entry key="results.synonymsNode">Synonyme:</entry>
+    <entry key="results.synonymsNode.noSynonymsFound">Keine Synonyme gefunden.</entry>
+    <entry key="searchButton.text">Suchen</entry>
+    <entry key="searchField.promptText">Tippen Sie einen Begriff ein oder kopieren Sie einen Begriff.</entry>
+    <entry key="settings.aboutButton">Über diese App</entry>
+    <entry key="settings.applicationLanguage.label">Sprache der Oberfläche:</entry>
+    <entry key="settings.avoidUnnecessaryClipboardSearchesCheckBox">Texte, die Sie wahrscheinlich nicht recherchieren möchten nicht an den Online-Dienst senden</entry>
+    <entry key="settings.privacyButton">Datenschutz</entry>
+    <entry key="settings.thesaurusLabel">Datenquelle:</entry>
+    <entry key="settings.thesaurusLanguageLabel">Suchsprache:</entry>
+    <entry key="settings.useClipboardCheckBox">Automatisch nach Synonymen suchen, wenn ein Text in die Zwischenablage kopiert wird</entry>
+    <entry key="settings.windowTitle">Einstellungen</entry>
+</properties>
