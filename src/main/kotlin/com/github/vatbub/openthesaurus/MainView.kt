@@ -23,6 +23,7 @@ import com.github.vatbub.openthesaurus.MouseState.InsideWindow
 import com.github.vatbub.openthesaurus.MouseState.OutsideWindow
 import com.github.vatbub.openthesaurus.apiclient.DataProvider
 import com.github.vatbub.openthesaurus.apiclient.Response
+import com.github.vatbub.openthesaurus.apiclient.ResponseWithAntonyms
 import com.github.vatbub.openthesaurus.apiclient.ResponseWithBaseForms
 import com.github.vatbub.openthesaurus.apiclient.ResponseWithSimilarTerms
 import com.github.vatbub.openthesaurus.apiclient.ResponseWithSubstringTerms
@@ -333,6 +334,18 @@ class MainView : AutoCloseable {
         synonymsRoot.isExpanded = true
         root.children.add(synonymsRoot)
         val newTreeItemIndex = mutableMapOf(*synonymTreeItems.toList().toTypedArray())
+
+        if (result is ResponseWithAntonyms) {
+            val antonymsRoot = TreeItem(App.stringResources["results.antonymsNode"])
+            val antonymTreeItems = result.antonyms
+                .distinct()
+                .associateBy { term -> term.treeItem() }
+
+            antonymsRoot.children.addAll(antonymTreeItems.keys)
+            antonymsRoot.isExpanded = true
+            root.children.add(antonymsRoot)
+            newTreeItemIndex.putAll(antonymTreeItems)
+        }
 
         if (result is ResponseWithSimilarTerms) {
             val similarTermsRoot = TreeItem(App.stringResources["results.similarTermsNode"])

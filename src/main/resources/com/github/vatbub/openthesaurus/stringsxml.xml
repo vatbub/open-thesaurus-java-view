@@ -31,6 +31,7 @@
     <entry key="error.title.info">Thesaurus: Information</entry>
     <entry key="error.title.warning">Thesaurus: Warning</entry>
     <entry key="mainWindow.title">Open Thesaurus</entry>
+    <entry key="results.antonymsNode">Antonyms</entry>
     <entry key="results.apiErrorNoAdditionalMessage">An error happened during the last request.</entry>
     <entry key="results.apiErrorWithAdditionalMessage">The following error happened during the last request: %s</entry>
     <entry key="results.baseFormNode">Base forms:</entry>

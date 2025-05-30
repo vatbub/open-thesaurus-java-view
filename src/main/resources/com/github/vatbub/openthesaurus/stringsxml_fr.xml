@@ -31,6 +31,7 @@
     <entry key="error.title.info">Thesaurus: Information</entry>
     <entry key="error.title.warning">Thesaurus: Avertissement</entry>
     <entry key="mainWindow.title">Open Thesaurus</entry>
+    <entry key="results.antonymsNode">Antonymes</entry>
     <entry key="results.apiErrorNoAdditionalMessage">Une erreur s'est produite pendant la requête.</entry>
     <entry key="results.apiErrorWithAdditionalMessage">Une erreur s'est produite pendant la requête: %s</entry>
     <entry key="results.baseFormNode">Formes fondamentales:</entry>
