@@ -307,7 +307,7 @@ class MainView : AutoCloseable {
                 val snackBarText = if (it.responseContent == null)
                     App.stringResources["results.apiErrorNoAdditionalMessage"]
                 else
-                    App.stringResources["results.apiErrorWithAdditionalMessage"]
+                    App.stringResources["results.apiErrorWithAdditionalMessage"].format(it.responseContent)
                 doSnackBarAnimation(snackBarText)
             }
             return@launch
