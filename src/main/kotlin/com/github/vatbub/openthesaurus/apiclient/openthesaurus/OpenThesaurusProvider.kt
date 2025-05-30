@@ -19,17 +19,25 @@
  */
 package com.github.vatbub.openthesaurus.apiclient.openthesaurus
 
-import com.github.vatbub.openthesaurus.apiclient.*
+import com.github.vatbub.openthesaurus.apiclient.ApiError
+import com.github.vatbub.openthesaurus.apiclient.DataProvider
+import com.github.vatbub.openthesaurus.apiclient.Response
+import com.github.vatbub.openthesaurus.apiclient.ResultTerm
+import com.github.vatbub.openthesaurus.apiclient.ResultTermImpl
+import com.github.vatbub.openthesaurus.apiclient.SimilarResultTerm
+import com.github.vatbub.openthesaurus.apiclient.SimilarResultTermImpl
+import com.github.vatbub.openthesaurus.apiclient.dynamicResponse
 import com.github.vatbub.openthesaurus.util.Either
 import com.github.vatbub.openthesaurus.util.left
 import com.github.vatbub.openthesaurus.util.right
 import java.io.Closeable
-import java.util.*
+import java.util.Locale
 
 class OpenThesaurusProvider(
     endpoint: String = "https://www.openthesaurus.de/"
 ) : DataProvider, Closeable {
     override val screenName: String = "OpenThesaurus.de"
+    override val internalName: String = "OpenThesaurus.de"
     override val supportedLocales: List<Locale> = listOf(Locale.GERMAN)
 
     private val client by lazy { OpenThesaurusClient(endpoint) }
@@ -49,8 +57,8 @@ class OpenThesaurusProvider(
     private fun OpenThesaurusResult.toResponse(): Response = Response.dynamicResponse(
         synonyms = this.synonymSets.toResultTermList(),
         similarTerms = this.similarTerms?.toSimilarTermList(),
-        substringTerms = this.substringTerms?.toResultTermList(),
-        baseForms = this.baseForms?.toResultTermList()
+        substringTerms = this.substringTerms?.toResultTermListOpenThesaurusTerm(),
+        baseForms = this.baseForms?.toResultTermListOpenThesaurusTerm()
     )
 
     private fun List<OpenThesaurusSynonymSet>.toResultTermList(): List<ResultTerm> =
@@ -58,8 +66,7 @@ class OpenThesaurusProvider(
             .flatten()
             .map { ResultTermImpl(it.term, it.level) }
 
-    @JvmName("toResultTermListOpenThesaurusTerm")
-    private fun List<OpenThesaurusTerm>.toResultTermList(): List<ResultTerm> =
+    private fun List<OpenThesaurusTerm>.toResultTermListOpenThesaurusTerm(): List<ResultTerm> =
         this.map { ResultTermImpl(it.term, it.level) }
 
     private fun List<OpenThesaurusTerm>.toSimilarTermList(): List<SimilarResultTerm> =

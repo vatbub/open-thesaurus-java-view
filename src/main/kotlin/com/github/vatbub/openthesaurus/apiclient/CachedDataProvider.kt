@@ -27,6 +27,8 @@ import java.util.Locale
 fun DataProvider.cacheResults(cacheSize: Long = 50L): DataProvider = object : DataProvider, AutoCloseable {
     override val screenName: String
         get() = this@cacheResults.screenName
+    override val internalName: String
+        get() = this@cacheResults.internalName
     override val supportedLocales: List<Locale>
         get() = this@cacheResults.supportedLocales
 

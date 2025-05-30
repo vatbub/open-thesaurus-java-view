@@ -21,10 +21,11 @@ package com.github.vatbub.openthesaurus.apiclient
 
 import com.github.vatbub.openthesaurus.apiclient.openthesaurus.OpenThesaurusProvider
 import com.github.vatbub.openthesaurus.util.Either
-import java.util.*
+import java.util.Locale
 
 interface DataProvider {
     val screenName: String
+    val internalName: String
 
     val supportedLocales: List<Locale>
 

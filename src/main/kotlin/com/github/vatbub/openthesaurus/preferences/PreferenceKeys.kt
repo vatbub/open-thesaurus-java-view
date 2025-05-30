@@ -21,7 +21,7 @@ package com.github.vatbub.openthesaurus.preferences
 
 import com.github.vatbub.kotlin.preferences.Key
 import com.github.vatbub.openthesaurus.apiclient.DataProvider
-import java.util.*
+import java.util.Locale
 
 object PreferenceKeys {
     object GuiLanguage : LocaleKey("guiLanguage")
@@ -31,10 +31,10 @@ object PreferenceKeys {
         defaultValue = DataProvider.knownImplementations.first(),
         parser = { string ->
             DataProvider.knownImplementations.first { implementation ->
-                implementation::class.java.canonicalName == string
+                implementation.internalName == string
             }
         },
-        serializer = { it::class.java.canonicalName })
+        serializer = { it.internalName })
 
     object SearchLanguage : LocaleKey("searchLanguage")
 
