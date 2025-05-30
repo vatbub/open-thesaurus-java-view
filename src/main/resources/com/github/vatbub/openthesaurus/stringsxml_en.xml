@@ -38,7 +38,7 @@
     <entry key="results.noSearch">No term searched. Copy any text to search for synonyms.</entry>
     <entry key="results.root">Term: %s</entry>
     <entry key="results.similarTermsNode">Similar terms:</entry>
-    <entry key="results.substringTermsNode">Tersm that contain "%s":</entry>
+    <entry key="results.substringTermsNode">Terms that contain "%s":</entry>
     <entry key="results.synonymsNode">Synonyms:</entry>
     <entry key="results.synonymsNode.noSynonymsFound">No synonymes found.</entry>
     <entry key="searchButton.text">Search</entry>
