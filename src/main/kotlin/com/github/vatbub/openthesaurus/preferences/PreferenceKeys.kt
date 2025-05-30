@@ -43,6 +43,9 @@ object PreferenceKeys {
 
     object FilterAutoSendFromClipboard :
         Key<Boolean>("filterAutoSendFromClipboard", true, { it.toBoolean() }, { it.toString() })
+
+    object BigHugeThesaurusApiKey :
+        Key<String>("bigHugeThesaurusApiKey", "", { it }, { it })
 }
 
 abstract class LocaleKey(uniqueName: String, defaultValue: Locale = Locale.getDefault()) :

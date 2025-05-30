@@ -21,6 +21,10 @@ package com.github.vatbub.openthesaurus.apiclient
 
 class ResponseImpl(override val synonymSets: List<ResultTerm>) : Response
 
+class ResponseWithAntonymsImpl(
+    override val antonyms: List<ResultTerm>
+) : ResponseWithAntonyms
+
 class ResponseWithSimilarTermsImpl(
     override val similarTerms: List<SimilarResultTerm>
 ) : ResponseWithSimilarTerms

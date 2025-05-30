@@ -17,26 +17,6 @@
  * limitations under the License.
  * #L%
  */
-package com.github.vatbub.openthesaurus.apiclient
+package com.github.vatbub.openthesaurus.apiclient.bighugethesaurus
 
-interface Response {
-    val synonymSets: List<ResultTerm>
-
-    companion object
-}
-
-interface ResponseWithAntonyms {
-    val antonyms: List<ResultTerm>
-}
-
-interface ResponseWithSimilarTerms {
-    val similarTerms: List<SimilarResultTerm>
-}
-
-interface ResponseWithSubstringTerms {
-    val substringTerms: List<ResultTerm>
-}
-
-interface ResponseWithBaseForms {
-    val baseForms: List<ResultTerm>
-}
+data class BigHugeThesaurusRequest(val term: String)

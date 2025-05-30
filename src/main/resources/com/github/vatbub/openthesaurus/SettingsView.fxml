@@ -16,6 +16,7 @@
         <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES"/>
         <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
         <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES"/>
         <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
         <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
     </rowConstraints>
@@ -37,9 +38,17 @@
                   GridPane.rowIndex="3"/>
         <Button fx:id="privacyButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
                 text="%settings.privacyButton" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS"
-                GridPane.rowIndex="5"/>
+                GridPane.rowIndex="6"/>
         <Button fx:id="aboutButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                text="%settings.aboutButton" GridPane.columnSpan="2147483647" GridPane.rowIndex="6"/>
+                text="%settings.aboutButton" GridPane.columnSpan="2147483647" GridPane.rowIndex="7"/>
+        <Label text="%settings.bigHugeThesaurusApiKeyLabel" GridPane.rowIndex="5"/>
+        <HBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <children>
+                <TextField fx:id="bigHugeThesaurusApiKeyTextField" HBox.hgrow="ALWAYS"/>
+                <Button mnemonicParsing="false" onAction="#getBigHugeThesaurusApiKeyOnAction"
+                        text="%settings.getBigHugeThesaurusApiKeyButton"/>
+            </children>
+        </HBox>
     </children>
     <padding>
         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>

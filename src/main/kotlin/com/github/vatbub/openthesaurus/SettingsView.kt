@@ -21,6 +21,7 @@ package com.github.vatbub.openthesaurus
 
 import com.github.vatbub.openthesaurus.apiclient.DataProvider
 import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.AutoSearchFromClipboard
+import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.BigHugeThesaurusApiKey
 import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.DataSource
 import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.FilterAutoSendFromClipboard
 import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.GuiLanguage
@@ -28,6 +29,9 @@ import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.SearchLanguage
 import com.github.vatbub.openthesaurus.preferences.preferences
 import com.github.vatbub.openthesaurus.util.get
 import com.github.vatbub.openthesaurus.util.supportedLocales
+import java.awt.Desktop
+import java.net.URI
+import java.util.Locale
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
@@ -36,10 +40,10 @@ import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.control.CheckBox
 import javafx.scene.control.ChoiceBox
+import javafx.scene.control.TextField
 import javafx.scene.layout.GridPane
 import javafx.stage.Stage
 import javafx.util.StringConverter
-import java.util.*
 
 
 class SettingsView {
@@ -99,6 +103,14 @@ class SettingsView {
     private lateinit var searchLanguageChoiceBox: ChoiceBox<Locale>
 
     @FXML
+    private lateinit var bigHugeThesaurusApiKeyTextField: TextField
+
+    @FXML
+    fun getBigHugeThesaurusApiKeyOnAction() {
+        Desktop.getDesktop().browse(URI("https://words.bighugelabs.com/account/getkey"))
+    }
+
+    @FXML
     fun initialize() {
         dataSourceChoiceBox.converter = object : StringConverter<DataProvider>() {
             override fun toString(dataProvider: DataProvider): String = dataProvider.screenName
@@ -136,6 +148,10 @@ class SettingsView {
         }
         filterClipboardSearchCheckBox.selectedProperty().addListener { _, _, newValue ->
             preferences[FilterAutoSendFromClipboard] = newValue
+        }
+        bigHugeThesaurusApiKeyTextField.text = preferences[BigHugeThesaurusApiKey]
+        bigHugeThesaurusApiKeyTextField.textProperty().addListener { _, _, newValue ->
+            preferences[BigHugeThesaurusApiKey] = newValue
         }
     }
 

@@ -19,6 +19,7 @@
  */
 package com.github.vatbub.openthesaurus.apiclient
 
+import com.github.vatbub.openthesaurus.apiclient.bighugethesaurus.BigHugeThesaurusProvider
 import com.github.vatbub.openthesaurus.apiclient.openthesaurus.OpenThesaurusProvider
 import com.github.vatbub.openthesaurus.util.Either
 import java.util.Locale
@@ -34,7 +35,8 @@ interface DataProvider {
     companion object {
         val knownImplementations: List<DataProvider> by lazy {
             listOf(
-                OpenThesaurusProvider().cacheResults()
+                OpenThesaurusProvider().cacheResults(),
+                BigHugeThesaurusProvider().cacheResults()
             )
         }
     }
