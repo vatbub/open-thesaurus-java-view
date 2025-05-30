@@ -25,13 +25,13 @@ import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.GuiLanguage
 import com.github.vatbub.openthesaurus.preferences.preferences
 import com.github.vatbub.openthesaurus.util.XmlResourceBundleControl
 import com.github.vatbub.openthesaurus.util.get
+import java.util.ResourceBundle
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import java.util.*
 
 class App private constructor(callLaunch: Boolean, private vararg val args: String?) : Application() {
     companion object {

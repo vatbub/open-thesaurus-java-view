@@ -33,7 +33,6 @@ import com.github.vatbub.openthesaurus.util.left
 import com.github.vatbub.openthesaurus.util.right
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import ru.gildor.coroutines.okhttp.await
@@ -43,7 +42,6 @@ class OpenThesaurusClient(
 ) : AutoCloseable {
     companion object {
         private val client by lazy { OkHttpClient() }
-        private val jsonMediaType = "application/json; charset=utf-8".toMediaType()
     }
 
     suspend fun request(request: OpenThesaurusRequest): Either<OpenThesaurusResult, ApiError> {
