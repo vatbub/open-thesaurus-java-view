@@ -21,6 +21,7 @@ package com.github.vatbub.openthesaurus.apiclient
 
 import com.github.vatbub.openthesaurus.apiclient.bighugethesaurus.BigHugeThesaurusProvider
 import com.github.vatbub.openthesaurus.apiclient.duden.DudenProvider
+import com.github.vatbub.openthesaurus.apiclient.openthesaurus.OfflineOpenThesaurusProvider
 import com.github.vatbub.openthesaurus.apiclient.openthesaurus.OpenThesaurusProvider
 import com.github.vatbub.openthesaurus.util.Either
 import java.util.Locale
@@ -54,6 +55,7 @@ interface DataProvider {
         val knownImplementations: List<DataProvider> by lazy {
             listOf(
                 OpenThesaurusProvider().cacheResults(),
+                OfflineOpenThesaurusProvider().cacheResults(),
                 BigHugeThesaurusProvider().cacheResults(),
                 DudenProvider().cacheResults()
             )
