@@ -22,7 +22,11 @@ package com.github.vatbub.openthesaurus.apiclient.openthesaurus
 
 import com.beust.klaxon.Klaxon
 import com.github.vatbub.openthesaurus.apiclient.ApiError
-import com.github.vatbub.openthesaurus.apiclient.ApiError.Cause.*
+import com.github.vatbub.openthesaurus.apiclient.ApiError.Cause.ClientError
+import com.github.vatbub.openthesaurus.apiclient.ApiError.Cause.Exception
+import com.github.vatbub.openthesaurus.apiclient.ApiError.Cause.Other
+import com.github.vatbub.openthesaurus.apiclient.ApiError.Cause.Redirect
+import com.github.vatbub.openthesaurus.apiclient.ApiError.Cause.ServerError
 import com.github.vatbub.openthesaurus.logging.logger
 import com.github.vatbub.openthesaurus.util.Either
 import com.github.vatbub.openthesaurus.util.left
@@ -33,11 +37,10 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import ru.gildor.coroutines.okhttp.await
-import java.io.Closeable
 
 class OpenThesaurusClient(
     private val endpoint: String = "https://www.openthesaurus.de/"
-) : Closeable {
+) : AutoCloseable {
     companion object {
         private val client by lazy { OkHttpClient() }
         private val jsonMediaType = "application/json; charset=utf-8".toMediaType()

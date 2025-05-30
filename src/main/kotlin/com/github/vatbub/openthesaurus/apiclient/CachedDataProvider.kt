@@ -24,7 +24,7 @@ import com.github.vatbub.openthesaurus.util.Either
 import com.github.vatbub.openthesaurus.util.left
 import java.util.Locale
 
-fun DataProvider.cacheResults(cacheSize: Long = 50L): DataProvider = object : DataProvider {
+fun DataProvider.cacheResults(cacheSize: Long = 50L): DataProvider = object : DataProvider, AutoCloseable {
     override val screenName: String
         get() = this@cacheResults.screenName
     override val supportedLocales: List<Locale>
@@ -41,6 +41,10 @@ fun DataProvider.cacheResults(cacheSize: Long = 50L): DataProvider = object : Da
         if (result is Either.Left<Response>)
             cache.put(key, result.value)
         return result
+    }
+
+    override fun close() {
+        (this@cacheResults as? AutoCloseable)?.close()
     }
 }
 

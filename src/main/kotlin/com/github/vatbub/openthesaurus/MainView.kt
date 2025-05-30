@@ -21,7 +21,12 @@ package com.github.vatbub.openthesaurus
 
 import com.github.vatbub.openthesaurus.MouseState.InsideWindow
 import com.github.vatbub.openthesaurus.MouseState.OutsideWindow
-import com.github.vatbub.openthesaurus.apiclient.*
+import com.github.vatbub.openthesaurus.apiclient.DataProvider
+import com.github.vatbub.openthesaurus.apiclient.Response
+import com.github.vatbub.openthesaurus.apiclient.ResponseWithBaseForms
+import com.github.vatbub.openthesaurus.apiclient.ResponseWithSimilarTerms
+import com.github.vatbub.openthesaurus.apiclient.ResponseWithSubstringTerms
+import com.github.vatbub.openthesaurus.apiclient.ResultTerm
 import com.github.vatbub.openthesaurus.logging.logger
 import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.AutoSearchFromClipboard
 import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.DataSource
@@ -29,6 +34,9 @@ import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.SearchLanguage
 import com.github.vatbub.openthesaurus.preferences.preferences
 import com.github.vatbub.openthesaurus.util.get
 import com.sun.glass.ui.ClipboardAssistance
+import java.io.StringWriter
+import java.util.logging.Level
+import java.util.logging.LogRecord
 import javafx.animation.Animation.Status.RUNNING
 import javafx.animation.KeyFrame
 import javafx.animation.KeyValue
@@ -39,7 +47,14 @@ import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.beans.property.StringProperty
 import javafx.fxml.FXML
-import javafx.scene.control.*
+import javafx.scene.control.Alert
+import javafx.scene.control.Button
+import javafx.scene.control.Label
+import javafx.scene.control.ProgressIndicator
+import javafx.scene.control.TextArea
+import javafx.scene.control.TextField
+import javafx.scene.control.TreeItem
+import javafx.scene.control.TreeView
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.Clipboard
@@ -54,13 +69,8 @@ import javafx.util.Duration
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.apache.commons.lang3.exception.ExceptionUtils
-import java.io.Closeable
-import java.io.StringWriter
-import java.util.*
-import java.util.logging.Level
-import java.util.logging.LogRecord
 
-class MainView : Closeable {
+class MainView : AutoCloseable {
     companion object {
         private const val idleOpacity = 0.5
     }
@@ -244,10 +254,12 @@ class MainView : Closeable {
                 if (termHistory.canGoBackProperty.get())
                     goBack()
             }
+
             MouseButton.FORWARD -> {
                 if (termHistory.canGoForwardProperty.get())
                     goForward()
             }
+
             else -> return
         }
     }
@@ -483,9 +495,7 @@ class MainView : Closeable {
 
     override fun close() {
         DataProvider.knownImplementations.forEach {
-            // TODO Remove this suppression once more implementations exist
-            @Suppress("USELESS_IS_CHECK")
-            if (it is Closeable)
+            if (it is AutoCloseable)
                 it.close()
         }
     }
