@@ -49,8 +49,10 @@ class BigHugeThesaurusProvider(
         if (searchLocale !in supportedLocales) throw IllegalArgumentException("Locale $searchLocale not supported")
         return client.request(
             BigHugeThesaurusRequest(term)
-        ).leftOr { return it.right() }
-            .toResponse(term).left()
+        ).leftOr {
+            return if (it.responseCode == 404) ResponseImpl(listOf()).left()
+            else it.right()
+        }.toResponse(term).left()
     }
 
     private fun BigHugeThesaurusResult.toResponse(searchTerm: String): Response {
