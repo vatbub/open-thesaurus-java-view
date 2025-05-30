@@ -19,36 +19,29 @@
  */
 package com.github.vatbub.openthesaurus.apiclient
 
+import com.github.benmanes.caffeine.cache.Caffeine
 import com.github.vatbub.openthesaurus.util.Either
 import com.github.vatbub.openthesaurus.util.left
-import java.util.*
+import java.util.Locale
 
-fun DataProvider.cacheResults(cacheSize: Int = 50): DataProvider = object : DataProvider {
+fun DataProvider.cacheResults(cacheSize: Long = 50L): DataProvider = object : DataProvider {
     override val screenName: String
         get() = this@cacheResults.screenName
     override val supportedLocales: List<Locale>
         get() = this@cacheResults.supportedLocales
 
-    private var cache: MutableMap<CacheKey, CacheEntry> = mutableMapOf()
+    private val cache = Caffeine.newBuilder()
+        .maximumSize(cacheSize)
+        .build<CacheKey, Response>()
 
     override suspend fun requestTerm(term: String, searchLocale: Locale): Either<Response, ApiError> {
-        cache[CacheKey(term, searchLocale)]?.let { return it.result.left() }
+        val key = CacheKey(term, searchLocale)
+        cache.getIfPresent(key)?.let { return it.left() }
         val result = this@cacheResults.requestTerm(term, searchLocale)
         if (result is Either.Left<Response>)
-            addToCache(CacheKey(term, searchLocale), result.value)
+            cache.put(key, result.value)
         return result
-    }
-
-    private fun addToCache(request: CacheKey, result: Response) {
-        cache[request] = CacheEntry(System.currentTimeMillis(), result)
-        if (cache.size > cacheSize) {
-            val sortedList = cache.toList().sortedBy { it.second.timestamp }.toMutableList()
-            while (sortedList.size > cacheSize)
-                sortedList.removeFirst()
-            cache = sortedList.toMap().toMutableMap()
-        }
     }
 }
 
 private data class CacheKey(val term: String, val searchLocale: Locale)
-private data class CacheEntry(val timestamp: Long, val result: Response)
