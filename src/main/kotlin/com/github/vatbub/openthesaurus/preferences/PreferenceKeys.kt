@@ -46,6 +46,9 @@ object PreferenceKeys {
 
     object BigHugeThesaurusApiKey :
         Key<String>("bigHugeThesaurusApiKey", "", { it }, { it })
+
+    object DudenApiKey :
+        Key<String>("dudenApiKey", "", { it }, { it })
 }
 
 abstract class LocaleKey(uniqueName: String, defaultValue: Locale = Locale.getDefault()) :

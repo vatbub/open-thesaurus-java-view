@@ -23,6 +23,7 @@ import com.github.vatbub.openthesaurus.apiclient.DataProvider
 import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.AutoSearchFromClipboard
 import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.BigHugeThesaurusApiKey
 import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.DataSource
+import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.DudenApiKey
 import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.FilterAutoSendFromClipboard
 import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.GuiLanguage
 import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.SearchLanguage
@@ -106,8 +107,16 @@ class SettingsView {
     private lateinit var bigHugeThesaurusApiKeyTextField: TextField
 
     @FXML
+    private lateinit var dudenApiKeyTextField: TextField
+
+    @FXML
     fun getBigHugeThesaurusApiKeyOnAction() {
         Desktop.getDesktop().browse(URI("https://words.bighugelabs.com/account/getkey"))
+    }
+
+    @FXML
+    fun getDudenApiKeyOnAction() {
+        Desktop.getDesktop().browse(URI("https://www.duden.de/api"))
     }
 
     @FXML
@@ -152,6 +161,10 @@ class SettingsView {
         bigHugeThesaurusApiKeyTextField.text = preferences[BigHugeThesaurusApiKey]
         bigHugeThesaurusApiKeyTextField.textProperty().addListener { _, _, newValue ->
             preferences[BigHugeThesaurusApiKey] = newValue
+        }
+        dudenApiKeyTextField.text = preferences[DudenApiKey]
+        dudenApiKeyTextField.textProperty().addListener { _, _, newValue ->
+            preferences[DudenApiKey] = newValue
         }
     }
 

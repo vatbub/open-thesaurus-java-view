@@ -48,6 +48,7 @@
     <entry key="settings.applicationLanguage.label">Interface language:</entry>
     <entry key="settings.avoidUnnecessaryClipboardSearchesCheckBox">Don't send text to the online service that you probably don't want to search</entry>
     <entry key="settings.bigHugeThesaurusApiKeyLabel">Big Huge Thesaurus API key:</entry>
+    <entry key="settings.dudenApiKeyLabel">Duden</entry>
     <entry key="settings.getBigHugeThesaurusApiKeyButton">Get</entry>
     <entry key="settings.privacyButton">Privacy</entry>
     <entry key="settings.thesaurusLabel">Data source:</entry>
