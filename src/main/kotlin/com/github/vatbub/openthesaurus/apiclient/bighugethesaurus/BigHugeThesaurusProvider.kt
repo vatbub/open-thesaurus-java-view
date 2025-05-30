@@ -54,9 +54,10 @@ class BigHugeThesaurusProvider(
     }
 
     private fun BigHugeThesaurusResult.toResponse(searchTerm: String): Response {
-        val synonyms = wordClasses.flatMap { it.value.synonyms }.map { ResultTermImpl(it) }
-        val antonyms = wordClasses.flatMap { it.value.antonyms }.map { ResultTermImpl(it) }
+        val synonyms = wordClasses.flatMap { it.value.synonyms }.distinct().map { ResultTermImpl(it) }
+        val antonyms = wordClasses.flatMap { it.value.antonyms }.distinct().map { ResultTermImpl(it) }
         val similarTerms = wordClasses.flatMap { it.value.similar + it.value.related + it.value.userSuggestions }
+            .distinct()
             .map { term ->
                 SimilarResultTermImpl(
                     term,
