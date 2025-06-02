@@ -31,6 +31,7 @@ import com.github.vatbub.openthesaurus.apiclient.ResultTerm
 import com.github.vatbub.openthesaurus.logging.logger
 import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.AutoSearchFromClipboard
 import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.DataSource
+import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.FilterAutoSendFromClipboard
 import com.github.vatbub.openthesaurus.preferences.PreferenceKeys.SearchLanguage
 import com.github.vatbub.openthesaurus.preferences.preferences
 import com.github.vatbub.openthesaurus.util.get
@@ -289,7 +290,17 @@ class MainView : AutoCloseable {
             override fun contentChanged() {
                 if (!preferences[AutoSearchFromClipboard]) return
                 if (!clipboard.hasString()) return
-                currentSearchTermProperty.set(clipboard.string)
+                val clipboardString = clipboard.string ?: return
+                if (preferences[FilterAutoSendFromClipboard] && ContentFilter.isPotentiallyUnwanted(clipboardString)) {
+                    val snackBarText =
+                        App.stringResources["warning.potentiallyUnwantedTermBlocked"]
+                            .replace("\n", " ")
+                            .replace("\r", " ")
+                            .replace("  ", "")
+                            .format(clipboard.string)
+                    doSnackBarAnimation(snackBarText)
+                }
+                currentSearchTermProperty.set(clipboardString)
             }
         }
     }

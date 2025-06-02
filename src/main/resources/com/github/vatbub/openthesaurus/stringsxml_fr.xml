@@ -55,4 +55,7 @@
     <entry key="settings.thesaurusLanguageLabel">Langue de recherche:</entry>
     <entry key="settings.useClipboardCheckBox">rechercher des synonymes automatiquement lorsque vous copiez un texte dans la presse-papiers</entry>
     <entry key="settings.windowTitle">Paramètres</entry>
+    <entry key="warning.potentiallyUnwantedTermBlocked">Le terme '%s' n'a pas été envoyé au service en ligne car il est
+        considéré comme potentiellement confidentiel. Veuillez le coller manuellement dans la boîte de recherche pour
+        effectuer la recherche.</entry>
 </properties>

@@ -55,4 +55,8 @@
     <entry key="settings.thesaurusLanguageLabel">Suchsprache:</entry>
     <entry key="settings.useClipboardCheckBox">Automatisch nach Synonymen suchen, wenn ein Text in die Zwischenablage kopiert wird</entry>
     <entry key="settings.windowTitle">Einstellungen</entry>
+    <entry key="warning.potentiallyUnwantedTermBlocked">Der Begriff '%s' wurde nicht an den Online-Dienst geschickt, da
+        er als möglicherweise vertraulich eingestuft ist. Um dennoch nach dem Begriff zu chen, fügen Sie den Begriff
+        bitte manuell in der Suchleiste ein.
+    </entry>
 </properties>
